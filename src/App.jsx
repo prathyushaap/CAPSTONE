@@ -61,29 +61,31 @@ import TeacherProfile from './pages/teacher/TeacherProfile';
 function App() {
   return (
     
+      <Router>
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/home" element={<Display />} />
 
-        {/* FIX THIS ROUTE */}
         <Route
-  path="/departmentprojects/:departmentName"
-  element={<DepartmentProjects />}
-/>
+          path="/departmentprojects/:departmentName"
+          element={<DepartmentProjects />}
+        />
 
         <Route path="/projectdetails/:id" element={<ProjectDetails />} />
         <Route path="/uploadproject" element={<UploadProject />} />
         <Route path="/profile" element={<StudentCard />} />
         <Route path="/editprofile" element={<EditProfileForm />} />
 
-         <Route path="/teacher" element={<TeacherLayout/>}>
-            <Route index element={<TeacherDashboard/>} />
-            <Route path="add-project" element={<AddProject/>} />
-            <Route path="manage-project" element={<ManageProject/>} />
-            <Route path="teacher-profile" element={<TeacherProfile/>} />
-          </Route>
+        <Route path="/teacher" element={<TeacherLayout />}>
+          <Route index element={<TeacherDashboard />} />
+          <Route path="add-project" element={<AddProject />} />
+          <Route path="add-project/:id" element={<AddProject />} />
+          <Route path="manage-project" element={<ManageProject />} />
+          <Route path="teacher-profile" element={<TeacherProfile />} />
+        </Route>
       </Routes>
+    </Router>
     
   );
 }

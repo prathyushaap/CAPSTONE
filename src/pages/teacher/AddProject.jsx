@@ -1,198 +1,219 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { DEPARTMENTS } from "../../constants/ProgramData";
-
+import { ProjectContext } from "../../context/ProjectContext";
 
 const AddProject = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { projects, setProjects } = useContext(ProjectContext);
+
+  const isEdit = Boolean(id);
+
   const [projectName, setProjectName] = useState("");
   const [description, setDescription] = useState("");
   const [departmentName, setDepartmentName] = useState("");
   const [newDepartment, setNewDepartment] = useState("");
   const [year, setYear] = useState("");
   const [members, setMembers] = useState([{ name: "" }]);
-  const [projectReport, setProjectReport] = useState(null);
   const [liveLink, setLiveLink] = useState("");
+  const [projectReport, setProjectReport] = useState(null);
+
+  // 🔹 Load data when editing
+  useEffect(() => {
+    if (isEdit) {
+      const project = projects.find(p => p.id === Number(id));
+      if (project) {
+        setProjectName(project.projectName);
+        setDescription(project.description);
+        setDepartmentName(project.departmentName);
+        setYear(project.year);
+        setMembers(project.members);
+        setLiveLink(project.liveLink || "");
+        setProjectReport(project.projectReport || null);
+      }
+    }
+  }, [id, isEdit, projects]);
 
   const addMemberField = () => {
     setMembers([...members, { name: "" }]);
   };
 
   const handleMemberChange = (index, value) => {
-    const updatedMembers = members.map((member, i) =>
-      i === index ? { name: value } : member
-    );
-    setMembers(updatedMembers);
+    setMembers(members.map((m, i) =>
+      i === index ? { name: value } : m
+    ));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const finalDepartment =
       departmentName === "add-new" ? newDepartment : departmentName;
 
-    const newProject = {
-      id: Date.now(),
-      projectName,
-      description,
-      departmentName: finalDepartment,
-      year: parseInt(year),
-      members,
-      liveLink,
-      projectReport,
-    };
+    if (isEdit) {
+      // 🔹 UPDATE PROJECT
+      setProjects(prev =>
+        prev.map(p =>
+          p.id === Number(id)
+            ? {
+                ...p,
+                projectName,
+                description,
+                departmentName: finalDepartment,
+                year: Number(year),
+                members,
+                liveLink,
+                projectReport, // keeps old if unchanged
+              }
+            : p
+        )
+      );
+    } else {
+      // 🔹 ADD PROJECT
+      setProjects(prev => [
+        ...prev,
+        {
+          id: Date.now(),
+          projectName,
+          description,
+          departmentName: finalDepartment,
+          year: Number(year),
+          members,
+          liveLink,
+          projectReport,
+        }
+      ]);
+    }
 
-    console.log(newProject);
+    navigate("/projects");
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 font-outfit text-gray-600">
+    <div className="max-w-3xl mx-auto p-6 text-gray-600">
       <form
         onSubmit={handleSubmit}
         className="bg-white shadow-md rounded-lg p-6 space-y-6"
       >
-        <h2 className="text-2xl font-semibold border-b border-gray-400 pb-3 text-gray-600">
-          Add New Project
+        <h2 className="text-2xl font-semibold border-b pb-3">
+          {isEdit ? "Update Project" : "Add New Project"}
         </h2>
 
         {/* Project Name */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Project Name
-          </label>
-          <input
-            type="text"
-            value={projectName}
-            onChange={(e) => setProjectName(e.target.value)}
-            className="w-full rounded-md border border-gray-400 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
+        <input
+          type="text"
+          value={projectName}
+          onChange={(e) => setProjectName(e.target.value)}
+          placeholder="Project Name"
+          className="w-full border px-3 py-2 rounded"
+          required
+        />
 
         {/* Description */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Description
-          </label>
-          <textarea
-            rows="4"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full rounded-md border border-gray-400 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        <textarea
+          rows="4"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Description"
+          className="w-full border px-3 py-2 rounded"
+          required
+        />
+
+        {/* Department & Year */}
+        <div className="grid md:grid-cols-2 gap-4">
+          <select
+            value={departmentName}
+            onChange={(e) => setDepartmentName(e.target.value)}
+            className="border px-3 py-2 rounded"
+            required
+          >
+            <option value="">Select Department</option>
+            {DEPARTMENTS.map((dept, i) => (
+              <option key={i} value={dept.departmentName}>
+                {dept.departmentName}
+              </option>
+            ))}
+            <option value="add-new">Add New Department</option>
+          </select>
+
+          <input
+            type="number"
+            value={year}
+            onChange={(e) => setYear(e.target.value)}
+            placeholder="Year"
+            className="border px-3 py-2 rounded"
             required
           />
         </div>
 
-        {/* Department & Year */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Department
-            </label>
-            <select
-              value={departmentName}
-              onChange={(e) => setDepartmentName(e.target.value)}
-              className="w-full rounded-md border border-gray-400 px-3 py-2 focus:ring-2 focus:ring-blue-500"
-              required
-            >
-              <option value="">Select Department</option>
-              {DEPARTMENTS.map((dept, index) => (
-                <option key={index} value={dept.departmentName}>
-                  {dept.departmentName}
-                </option>
-              ))}
-              <option value="add-new">Add New Department</option>
-            </select>
+        {departmentName === "add-new" && (
+          <input
+            type="text"
+            placeholder="New Department Name"
+            value={newDepartment}
+            onChange={(e) => setNewDepartment(e.target.value)}
+            className="border px-3 py-2 rounded w-full"
+            required
+          />
+        )}
 
-            {departmentName === "add-new" && (
-              <input
-                type="text"
-                placeholder="New Department Name"
-                value={newDepartment}
-                onChange={(e) => setNewDepartment(e.target.value)}
-                className="mt-2 w-full rounded-md border border-gray-400 px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-                required
-              />
-            )}
-          </div>
+        {/* Live Link */}
+        <input
+          type="url"
+          value={liveLink}
+          onChange={(e) => setLiveLink(e.target.value)}
+          placeholder="Live Project URL"
+          className="border px-3 py-2 rounded w-full"
+        />
 
-          <div>
-            <label className="block text-sm font-medium mb-1">Year</label>
-            <input
-              type="number"
-              value={year}
-              onChange={(e) => setYear(e.target.value)}
-              className="w-full rounded-md border border-gray-400 px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              required
-            />
-          </div>
-        </div>
+        {/* 📎 Project Report Upload */}
+        <div>
+          <label className="block text-sm font-medium mb-1">
+            Project Report
+          </label>
 
-        {/* Links & Files */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Live Project Link
-            </label>
-            <input
-              type="url"
-              value={liveLink}
-              onChange={(e) => setLiveLink(e.target.value)}
-              placeholder="https://example.com"
-              className="w-full rounded-md border border-gray-400 px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-            />
-          </div>
+          {isEdit && projectReport && (
+            <p className="text-sm text-gray-500 mb-1">
+              Current file: <b>{projectReport.name || "Uploaded file"}</b>
+            </p>
+          )}
 
-          <div>
-            <label className="block text-sm font-medium mb-1 text-gray-600">
-              Project Report
-            </label>
-            <input
-              type="file"
-              accept=".pdf,.doc,.docx"
-              onChange={(e) => setProjectReport(e.target.files[0])}
-              className="w-full rounded-md border border-gray-400 px-3 py-2 text-gray-600 outline-none"
-            />
-          </div>
+          <input
+            type="file"
+            accept=".pdf,.doc,.docx"
+            onChange={(e) => setProjectReport(e.target.files[0])}
+            className="w-full border px-3 py-2 rounded"
+          />
         </div>
 
         {/* Members */}
-        <div className="text-gray-600">
-          <label className="block text-sm font-medium mb-2">
-            Team Members
-          </label>
+        {members.map((m, i) => (
+          <input
+            key={i}
+            type="text"
+            value={m.name}
+            onChange={(e) => handleMemberChange(i, e.target.value)}
+            placeholder={`Member ${i + 1}`}
+            className="border px-3 py-2 rounded w-full"
+            required
+          />
+        ))}
 
-          <div className="space-y-2">
-            {members.map((member, index) => (
-              <input
-                key={index}
-                type="text"
-                placeholder={`Member ${index + 1}`}
-                value={member.name}
-                onChange={(e) =>
-                  handleMemberChange(index, e.target.value)
-                }
-                className="w-full rounded-md border border-gray-400 px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-                required
-              />
-            ))}
-          </div>
-
-          <button
-            type="button"
-            onClick={addMemberField}
-            className="mt-2 text-sm text-blue-600 hover:underline"
-          >
-            + Add another member
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={addMemberField}
+          className="text-blue-600 text-sm"
+        >
+          + Add Member
+        </button>
 
         {/* Submit */}
-        <div className="pt-4 border-t border-gray-400">
-          <button
-            type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md"
-          >
-            Add Project
-          </button>
-        </div>
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-6 py-2 rounded"
+        >
+          {isEdit ? "Update Project" : "Add Project"}
+        </button>
       </form>
     </div>
   );
