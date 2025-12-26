@@ -31,70 +31,172 @@ export const DEPARTMENTS = [
 
 ///////////////////////////////////
 
+// export const PROJECTSDATA = [
+//   {
+//     id: 1,
+//     projectName: "AI for Good",
+//     description: `This project explores how AI can be used to support communities.
+// It focuses on using machine learning for social impact.
+// Students develop practical and ethical solutions.`,
+//     departmentName: "MSC Computer Science",
+//     year: 2024,
+//     reportFile: null, // upload later (PDF/DOC)
+//     members: [
+//       { name: "Student One" },
+//       { name: "Student Two" }
+//     ]
+//   },
+//   {
+//     id: 2,
+//     projectName: "Computer Science Fundamentals",
+//     description: `This project introduces core computer science concepts
+// including algorithms, programming, and system design.`,
+//     departmentName: "BCA",
+//     year: 2023,
+//     reportFile: null,
+//     members: [
+//       { name: "Student A" }
+//     ]
+//   },
+//   {
+//     id: 3,
+//     projectName: "Recent Innovations",
+//     description: `A showcase of recent student innovations and research
+// focused on real-world problem solving.`,
+//     departmentName: "MSC Computer Science",
+//     year: 2024,
+//     reportFile: null,
+//     members: [
+//       { name: "Student Alpha" },
+//       { name: "Student Beta" }
+//     ]
+//   },
+//   {
+//     id: 4,
+//     projectName: "Green Energy Solutions",
+//     description: `Research on renewable energy sources such as solar
+// and wind with a focus on sustainability.`,
+//     departmentName: "BSC Chemistry",
+//     year: 2022,
+//     reportFile: null,
+//     members: [
+//       { name: "Student Green" }
+//     ]
+//   },
+//   {
+//     id: 5,
+//     projectName: "Local History VR",
+//     description: `An immersive VR experience showcasing local history
+// and cultural heritage.`,
+//     departmentName: "BA English",
+//     year: 2023,
+//     reportFile: null,
+//     members: [
+//       { name: "Student VR" },
+//       { name: "Student Tech" }
+//     ]
+//   }
+// ];
+
 export const PROJECTSDATA = [
   {
     id: 1,
-    projectName: "AI for Good",
-    description: `This project explores how AI can be used to support communities.
-It focuses on using machine learning for social impact.
-Students develop practical and ethical solutions.`,
+    projectName: "Student Management System",
+    description:
+      "A web-based system to manage student records, attendance, and performance.",
     departmentName: "MSC Computer Science",
     year: 2024,
-    reportFile: null, // upload later (PDF/DOC)
     members: [
-      { name: "Student One" },
-      { name: "Student Two" }
-    ]
+      { name: "Arjun S" },
+      { name: "Meera K" },
+    ],
+    liveLink: "https://student-management-demo.com",
+    projectReport: "student-management-report.pdf",
   },
   {
     id: 2,
-    projectName: "Computer Science Fundamentals",
-    description: `This project introduces core computer science concepts
-including algorithms, programming, and system design.`,
+    projectName: "Online Quiz Application",
+    description:
+      "An interactive quiz platform with timer, scoring, and admin dashboard.",
     departmentName: "BCA",
     year: 2023,
-    reportFile: null,
     members: [
-      { name: "Student A" }
-    ]
+      { name: "Rahul P" },
+      { name: "Sneha R" },
+      { name: "Akhil M" },
+    ],
+    liveLink: "https://online-quiz-app.com",
+    projectReport: "quiz-app-report.pdf",
   },
   {
     id: 3,
-    projectName: "Recent Innovations",
-    description: `A showcase of recent student innovations and research
-focused on real-world problem solving.`,
-    departmentName: "MSC Computer Science",
-    year: 2024,
-    reportFile: null,
+    projectName: "Water Quality Analysis",
+    description:
+      "Chemical analysis of water samples to assess purity and contamination.",
+    departmentName: "BSC Chemistry",
+    year: 2022,
     members: [
-      { name: "Student Alpha" },
-      { name: "Student Beta" }
-    ]
+      { name: "Anjali S" },
+      { name: "Divya N" },
+    ],
+    liveLink: "",
+    projectReport: "water-quality-analysis.pdf",
   },
   {
     id: 4,
-    projectName: "Green Energy Solutions",
-    description: `Research on renewable energy sources such as solar
-and wind with a focus on sustainability.`,
-    departmentName: "BSC Chemistry",
-    year: 2022,
-    reportFile: null,
+    projectName: "Green Chemistry Practices",
+    description:
+      "Study on eco-friendly chemical processes and sustainable lab practices.",
+    departmentName: "MSC Chemistry",
+    year: 2024,
     members: [
-      { name: "Student Green" }
-    ]
+      { name: "Vishnu R" },
+      { name: "Lakshmi P" },
+    ],
+    liveLink: "",
+    projectReport: "green-chemistry-report.pdf",
   },
   {
     id: 5,
-    projectName: "Local History VR",
-    description: `An immersive VR experience showcasing local history
-and cultural heritage.`,
+    projectName: "Postcolonial Themes in Literature",
+    description:
+      "An analysis of postcolonial themes in modern English literature.",
     departmentName: "BA English",
     year: 2023,
-    reportFile: null,
     members: [
-      { name: "Student VR" },
-      { name: "Student Tech" }
-    ]
-  }
+      { name: "Aparna T" },
+    ],
+    liveLink: "",
+    projectReport: "postcolonial-literature.pdf",
+  },
+  {
+    id: 6,
+    projectName: "Gender Studies in Contemporary Poetry",
+    description:
+      "Research on gender representation in contemporary English poetry.",
+    departmentName: "MA English",
+    year: 2024,
+    members: [
+      { name: "Neethu S" },
+      { name: "Fathima A" },
+    ],
+    liveLink: "",
+    projectReport: "gender-studies-poetry.pdf",
+  },
+  {
+    id: 7,
+    projectName: "Stress and Academic Performance",
+    description:
+      "A psychological study on stress levels and academic outcomes among students.",
+    departmentName: "Psychology",
+    year: 2023,
+    members: [
+      { name: "Rohit K" },
+      { name: "Anu M" },
+    ],
+    liveLink: "",
+    projectReport: "stress-academic-performance.pdf",
+  },
 ];
+
 
