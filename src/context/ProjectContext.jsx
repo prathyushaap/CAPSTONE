@@ -4,7 +4,12 @@ import { PROJECTSDATA } from "../constants/ProgramData";
 export const ProjectContext = createContext();
 
 export const ProjectProvider = ({ children }) => {
-  const [projects, setProjects] = useState(PROJECTSDATA);
+  const [projects, setProjects] = useState(
+    PROJECTSDATA.map(project => ({
+      ...project,
+      status: project.status || "published", // ✅ default status
+    }))
+  );
 
   return (
     <ProjectContext.Provider value={{ projects, setProjects }}>

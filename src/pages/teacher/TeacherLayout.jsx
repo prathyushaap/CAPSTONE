@@ -31,10 +31,13 @@ const TeacherLayout = () => {
           Logout
         </button>
       </div>
-      <div className="flex h-[calc(100vh-70px)]">
-        <Sidebar/>
-        <Outlet />
-      </div>
+      <div className="flex h-screen">
+  <Sidebar />
+  <div className="flex-1">
+    <Outlet />
+  </div>
+</div>
+
     </>
   );
 };

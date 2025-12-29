@@ -139,7 +139,7 @@ export const PROJECTSDATA = [
       { name: "Anjali S" },
       { name: "Divya N" },
     ],
-    liveLink: "",
+    liveLink: "https://online-quiz-app.com",
     projectReport: "water-quality-analysis.pdf",
   },
   {
@@ -153,7 +153,7 @@ export const PROJECTSDATA = [
       { name: "Vishnu R" },
       { name: "Lakshmi P" },
     ],
-    liveLink: "",
+    liveLink: "https://online-quiz-app.com",
     projectReport: "green-chemistry-report.pdf",
   },
   {
@@ -166,7 +166,7 @@ export const PROJECTSDATA = [
     members: [
       { name: "Aparna T" },
     ],
-    liveLink: "",
+    liveLink: "https://online-quiz-app.com",
     projectReport: "postcolonial-literature.pdf",
   },
   {
@@ -180,7 +180,7 @@ export const PROJECTSDATA = [
       { name: "Neethu S" },
       { name: "Fathima A" },
     ],
-    liveLink: "",
+    liveLink: "https://online-quiz-app.com",
     projectReport: "gender-studies-poetry.pdf",
   },
   {
@@ -194,7 +194,7 @@ export const PROJECTSDATA = [
       { name: "Rohit K" },
       { name: "Anu M" },
     ],
-    liveLink: "",
+    liveLink: "https://online-quiz-app.com",
     projectReport: "stress-academic-performance.pdf",
   },
 ];

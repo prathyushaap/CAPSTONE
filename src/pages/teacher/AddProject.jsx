@@ -90,12 +90,12 @@ const AddProject = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 text-gray-600">
+    <div className="max-w-7xl w-full mx-auto p-6 text-gray-700 mb-12 font-outfit">
       <form
         onSubmit={handleSubmit}
         className="bg-white shadow-md rounded-lg p-6 space-y-6"
       >
-        <h2 className="text-2xl font-semibold border-b pb-3">
+        <h2 className="text-2xl border-b pb-3 font-bold">
           {isEdit ? "Update Project" : "Add New Project"}
         </h2>
 
@@ -105,7 +105,7 @@ const AddProject = () => {
           value={projectName}
           onChange={(e) => setProjectName(e.target.value)}
           placeholder="Project Name"
-          className="w-full border px-3 py-2 rounded"
+          className="w-full border border-gray-400 px-3 py-2 rounded"
           required
         />
 
@@ -115,7 +115,7 @@ const AddProject = () => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Description"
-          className="w-full border px-3 py-2 rounded"
+          className="w-full border border-gray-400 px-3 py-2 rounded"
           required
         />
 
@@ -124,7 +124,7 @@ const AddProject = () => {
           <select
             value={departmentName}
             onChange={(e) => setDepartmentName(e.target.value)}
-            className="border px-3 py-2 rounded"
+            className="border border-gray-400 px-3 py-2 rounded"
             required
           >
             <option value="">Select Department</option>
@@ -141,7 +141,7 @@ const AddProject = () => {
             value={year}
             onChange={(e) => setYear(e.target.value)}
             placeholder="Year"
-            className="border px-3 py-2 rounded"
+            className="border border-gray-400 px-3 py-2 rounded"
             required
           />
         </div>
@@ -152,7 +152,7 @@ const AddProject = () => {
             placeholder="New Department Name"
             value={newDepartment}
             onChange={(e) => setNewDepartment(e.target.value)}
-            className="border px-3 py-2 rounded w-full"
+            className="border border-gray-400 px-3 py-2 rounded w-full"
             required
           />
         )}
@@ -163,7 +163,7 @@ const AddProject = () => {
           value={liveLink}
           onChange={(e) => setLiveLink(e.target.value)}
           placeholder="Live Project URL"
-          className="border px-3 py-2 rounded w-full"
+          className="border border-gray-400 px-3 py-2 rounded w-full"
         />
 
         {/* 📎 Project Report Upload */}
@@ -182,7 +182,7 @@ const AddProject = () => {
             type="file"
             accept=".pdf,.doc,.docx"
             onChange={(e) => setProjectReport(e.target.files[0])}
-            className="w-full border px-3 py-2 rounded"
+            className="w-full border border-gray-400 px-3 py-2 rounded"
           />
         </div>
 
@@ -194,7 +194,7 @@ const AddProject = () => {
             value={m.name}
             onChange={(e) => handleMemberChange(i, e.target.value)}
             placeholder={`Member ${i + 1}`}
-            className="border px-3 py-2 rounded w-full"
+            className="border border-gray-400 px-3 py-2 rounded w-full"
             required
           />
         ))}
