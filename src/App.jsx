@@ -17,9 +17,11 @@ import ManageProject from './pages/teacher/ManageProject';
 import TeacherProfile from './pages/teacher/TeacherProfile';
 import Draft from './pages/teacher/Draft';
 import Hero from './component/Hero';
+import Footer from './component/Footer';
 
 function App() {
   return (
+    <>
     <Routes>
       <Route path="/" element={<Hero/>} />
       <Route path="/login" element={<LoginPage />} />
@@ -45,6 +47,8 @@ function App() {
         <Route path="teacher-profile" element={<TeacherProfile />} />
       </Route>
     </Routes>
+    <Footer/>
+    </>
   );
 }
 
