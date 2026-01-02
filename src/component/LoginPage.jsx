@@ -1,70 +1,107 @@
-
-import bgImage from "../assets/images/bgImage.webp"
-
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import bgImage from "../assets/images/bgImage.webp";
+import { useNavigate, Link } from "react-router-dom";
+import { FiArrowLeft } from "react-icons/fi";
 
 const LoginPage = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-    const move = () => {
-        navigate("/home")
-    }
-    return (
-        <div className="flex items-center justify-center w-full  h-screen "
-            style={{
-                backgroundImage: `url(${bgImage})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-            }}>
-            <div className="bg-white shadow-lg rounded-[30px] p-8 w-full max-w-md flex flex-col items-center justify-center">
-                <h2 className="text-2xl font-bold text-center mb-6 text-[#a49bd5]">Welcome Back</h2>
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({
+      ...formData,
+      [id]: value,
+    });
+  };
 
-                <form className="space-y-4">
-                    {/* Email/Username */}
-                    <div>
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    // Store user data in localStorage
+    // Extract name from email (part before @) as default name
+    const emailName = formData.email.split("@")[0];
+    const userData = {
+      email: formData.email,
+      fullName: emailName.charAt(0).toUpperCase() + emailName.slice(1),
+    };
+    localStorage.setItem("userData", JSON.stringify(userData));
+    
+    // Redirect to featured projects page
+    navigate("/featured-projects");
+  };
 
-                        <input
-                            type="email"
-                            id="email"
-                            className="w-full border border-[#aaa2d0] rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
-                            placeholder=" Email"
-                            required
-                        />
-                    </div>
+  return (
+    <div
+      className="flex items-center justify-center w-full min-h-screen relative px-4 sm:px-6 lg:px-8"
+      style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      {/* Floating Back Button */}
+      <button
+        onClick={() => navigate(-1)}
+        className="absolute top-6 left-6 bg-white p-3 rounded-full shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center cursor-pointer"
+      >
+        <FiArrowLeft className="text-[#a49bd5] text-xl" />
+      </button>
 
-                    {/* Password */}
-                    <div>
+      {/* Form Card */}
+      <div className="bg-white shadow-lg rounded-[30px] p-6 sm:p-8 w-full max-w-md flex flex-col items-center justify-center">
+        <h2 className="text-2xl font-bold text-center mb-6 text-[#a49bd5]">
+          Welcome Back
+        </h2>
 
-                        <input
-                            type="password"
-                            id="password"
-                            className="w-full border border-[#aaa2d0] rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
-                            placeholder="Password"
-                            required
-                        />
-                    </div>
+        <form className="space-y-4 w-full" onSubmit={handleSubmit}>
+          {/* Email */}
+          <input
+            type="email"
+            id="email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full border border-[#aaa2d0] rounded-[20px] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+            placeholder="Email"
+            required
+          />
 
-                    {/* Submit Button */}
-                    <button
-                        type="submit"
-                        className="w-[300px] bg-[#b7b0dc] text-white py-2 rounded-[20px] hover:bg-purple-600 transition-colors duration-300 font-semibold cursor-pointer"
-                        onClick={move}
-                    >
-                        Login
-                    </button>
-                </form>
+          {/* Password */}
+          <input
+            type="password"
+            id="password"
+            value={formData.password}
+            onChange={handleChange}
+            className="w-full border border-[#aaa2d0] rounded-[20px] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+            placeholder="Password"
+            required
+          />
 
-                {/* Optional: Links */}
-                <div className="mt-4 flex justify-between text-sm text-gray-500">
-                    <a href="#" className="hover:text-purple-500">Forgot Password?</a>
-                    <Link to="/signup" className="hover:text-purple-500">Sign Up</Link>
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="w-full sm:w-auto px-8 py-2 bg-[#b7b0dc] text-white rounded-[20px] hover:bg-purple-600 transition-colors duration-300 font-semibold cursor-pointer mx-auto block"
+          >
+            Login
+          </button>
+        </form>
 
-                </div>
-            </div>
+        {/* Optional Links */}
+        <div className="mt-4 flex flex-col sm:flex-row justify-between text-sm text-gray-500 w-full px-2 gap-2 sm:gap-0">
+          <a href="#" className="hover:text-purple-500 text-center sm:text-left">
+            Forgot Password?
+          </a>
+          <Link to="/signup" className="hover:text-purple-500 text-center sm:text-right">
+            Sign Up
+          </Link>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default LoginPage;

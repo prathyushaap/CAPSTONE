@@ -15,14 +15,16 @@ const Hero = () => {
             alt="CAPSTONE logo"
             className="h-10 w-16 object-cover rounded-lg"
           />
-          <span className="text-2xl font-bold text-[#e3e1ea] font-sciencegothic">
+          <span className="text-2xl font-bold text-[#f8f7fc] font-sciencegothic">
             CAPSTONE
           </span>
         </Link>
 
+       <Link to="/signup">
         <button className="bg-white text-slate-800 hover:bg-gray-300 px-6 md:px-8 py-2.5 rounded-full font-medium transition">
           Sign up
         </button>
+       </Link>
       </nav>
 
       {/* Hero Content */}

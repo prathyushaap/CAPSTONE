@@ -10,9 +10,10 @@ export const ProjectProvider = ({ children }) => {
       status: project.status || "published", // ✅ default status
     }))
   );
+  const [profileHandle,setProfileHandle] = useState(true)
 
   return (
-    <ProjectContext.Provider value={{ projects, setProjects }}>
+    <ProjectContext.Provider value={{ projects, setProjects,profileHandle,setProfileHandle }}>
       {children}
     </ProjectContext.Provider>
   );

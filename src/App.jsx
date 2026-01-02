@@ -18,14 +18,36 @@ import TeacherProfile from './pages/teacher/TeacherProfile';
 import Draft from './pages/teacher/Draft';
 import Hero from './component/Hero';
 import Footer from './component/Footer';
+import TeacherProfileEdit from './pages/teacher/TeacherProfileEdit';
+import Header from './component/Header';
+import AboutUs from './component/AboutUs';
+import AllProjects from './component/AllProjects';
+import AllDepartments from './component/AllDepartments';
+import FeaturedProjects from './component/FeaturedProjects';
+import ContactUs from './component/ContactUs';
+import { SearchProvider } from './context/SearchContext';
 
 function App() {
   return (
     <>
+    <SearchProvider>
     <Routes>
       <Route path="/" element={<Hero/>} />
+      <Route path="/header" element={<Header/>} />
+      <Route path="/aboutus" element={<AboutUs/>} />
+      <Route path="/contactus" element={<ContactUs/>} />
+      <Route path="/allprojects" element={<AllProjects/>} />
+       <Route path="/alldepartments" element={<AllDepartments/>} />
+      
+
+
+
+
+
+
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpForm />} />
+      <Route path="/featured-projects" element={<FeaturedProjects />} />
       <Route path="/home" element={<Display />} />
 
       <Route
@@ -45,8 +67,11 @@ function App() {
         <Route path="manage-project" element={<ManageProject />} />
         <Route path="drafts" element={<Draft />} />
         <Route path="teacher-profile" element={<TeacherProfile />} />
+                <Route path="teacher-profile-edit" element={<TeacherProfileEdit />} />
+
       </Route>
     </Routes>
+    </SearchProvider>
     <Footer/>
     </>
   );
