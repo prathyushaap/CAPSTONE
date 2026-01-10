@@ -33,6 +33,9 @@ const StudentCard = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("userData");
+    localStorage.removeItem("isAuthenticated");
+    // Dispatch custom event to notify Header of logout
+    window.dispatchEvent(new Event("userDataChanged"));
     console.log("Logged out");
     navigate("/login");
   };

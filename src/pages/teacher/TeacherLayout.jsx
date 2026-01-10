@@ -11,7 +11,11 @@ const TeacherLayout = () => {
   const navigate = useNavigate();
 
   const logout = () => {
-    navigate("/");
+    localStorage.removeItem("userData");
+    localStorage.removeItem("isAuthenticated");
+    // Dispatch custom event to notify Header of logout
+    window.dispatchEvent(new Event("userDataChanged"));
+    navigate("/login");
   };
   return (
     <>

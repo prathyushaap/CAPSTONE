@@ -12,9 +12,73 @@ const Header = () => {
 
   const [open, setOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 890);
+  const [userName, setUserName] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const menuRef = useRef(null);
 
-  const handleClick = () => navigate("/profile");
+  useEffect(() => {
+    // Function to update user state from localStorage
+    const updateUserState = () => {
+      const authStatus = localStorage.getItem("isAuthenticated");
+      const userData = localStorage.getItem("userData");
+      
+      if (authStatus === "true" && userData) {
+        try {
+          const parsed = JSON.parse(userData);
+          setUserName(parsed.fullName || "");
+          setIsAuthenticated(true);
+        } catch (error) {
+          console.error("Error parsing user data:", error);
+          setUserName("");
+          setIsAuthenticated(false);
+        }
+      } else {
+        setUserName("");
+        setIsAuthenticated(false);
+      }
+    };
+
+    // Initial check
+    updateUserState();
+
+    // Listen for storage changes (when user logs in/out from other tabs)
+    const handleStorageChange = (e) => {
+      if (e.key === "userData" || e.key === "isAuthenticated") {
+        updateUserState();
+      }
+    };
+
+    // Custom event listener for same-tab changes
+    const handleCustomStorageChange = () => {
+      updateUserState();
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("userDataChanged", handleCustomStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("userDataChanged", handleCustomStorageChange);
+    };
+  }, []);
+
+  const handleClick = () => {
+    const userData = localStorage.getItem("userData");
+    if (userData) {
+      try {
+        const parsed = JSON.parse(userData);
+        if (parsed.role === "Teacher") {
+          navigate("/teacher/teacher-profile");
+        } else {
+          navigate("/user-dashboard");
+        }
+      } catch (error) {
+        navigate("/user-dashboard");
+      }
+    } else {
+      navigate("/login");
+    }
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -56,6 +120,7 @@ const Header = () => {
             <ul className="flex gap-10">
               <li><Link to="/featured-projects" className="nav-link">Featured Projects</Link></li>
               <li><Link to="/home" className="nav-link">All Departments</Link></li>
+              {isAuthenticated && <li><Link to="/user-dashboard" className="nav-link">Dashboard</Link></li>}
               <li><Link to="/aboutus" className="nav-link">About</Link></li>
               <li><Link to="/contactus" className="nav-link">Contact Us</Link></li>
             </ul>
@@ -72,10 +137,17 @@ const Header = () => {
                 />
               </div>
 
-              <IoPersonCircleSharp
-                className="text-[25px] cursor-pointer"
-                onClick={handleClick}
-              />
+              <div className="flex items-center gap-3">
+                {isAuthenticated && userName && (
+                  <span className="text-sm font-medium text-[#231942] hidden sm:block">
+                    {userName}
+                  </span>
+                )}
+                <IoPersonCircleSharp
+                  className="text-[25px] cursor-pointer"
+                  onClick={handleClick}
+                />
+              </div>
             </div>
           </div>
         )}
@@ -83,6 +155,11 @@ const Header = () => {
         {/* Mobile Icons */}
         {isMobile && (
           <div className="flex items-center gap-4">
+            {isAuthenticated && userName && (
+              <span className="text-xs font-medium text-[#231942] max-w-[100px] truncate">
+                {userName}
+              </span>
+            )}
             <IoPersonCircleSharp
               className="text-[28px] cursor-pointer"
               onClick={handleClick}
@@ -114,6 +191,7 @@ const Header = () => {
             <ul className="flex flex-col gap-6">
               <li><Link to="/featured-projects" onClick={() => setOpen(false)}>Featured Projects</Link></li>
               <li><Link to="/home" onClick={() => setOpen(false)}>All Departments</Link></li>
+              {isAuthenticated && <li><Link to="/user-dashboard" onClick={() => setOpen(false)}>Dashboard</Link></li>}
               <li><Link to="/aboutus" onClick={() => setOpen(false)}>About</Link></li>
               <li><Link to="/contactus" onClick={() => setOpen(false)}>Contact Us</Link></li>
             </ul>

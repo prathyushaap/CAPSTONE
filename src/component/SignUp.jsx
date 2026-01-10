@@ -45,9 +45,56 @@ const SignUpForm = () => {
       return;
     }
 
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
+
     setError("");
-    console.log("Form submitted:", formData);
-    // 👉 Send data to backend here
+
+    // Get existing users from localStorage
+    const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
+    
+    // Check if email already exists
+    const emailExists = existingUsers.some(user => user.email === formData.email);
+    if (emailExists) {
+      setError("Email already exists. Please login instead.");
+      return;
+    }
+
+    // Create new user object
+    const newUser = {
+      id: Date.now().toString(),
+      fullName: formData.fullName,
+      email: formData.email,
+      password: formData.password, // In production, this should be hashed
+      role: formData.role,
+      createdAt: new Date().toISOString(),
+    };
+
+    // Add new user to localStorage
+    existingUsers.push(newUser);
+    localStorage.setItem("users", JSON.stringify(existingUsers));
+
+    // Set as current user and redirect based on role
+    const userData = {
+      id: newUser.id,
+      fullName: newUser.fullName,
+      email: newUser.email,
+      role: newUser.role,
+    };
+    localStorage.setItem("userData", JSON.stringify(userData));
+    localStorage.setItem("isAuthenticated", "true");
+    
+    // Dispatch custom event to notify Header of signup
+    window.dispatchEvent(new Event("userDataChanged"));
+
+    // Redirect based on role
+    if (formData.role === "Teacher") {
+      navigate("/teacher");
+    } else {
+      navigate("/featured-projects");
+    }
   };
 
   return (

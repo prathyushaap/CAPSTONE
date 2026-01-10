@@ -9,6 +9,7 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -20,18 +21,44 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError("");
+
+    // Get users from localStorage
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
     
-    // Store user data in localStorage
-    // Extract name from email (part before @) as default name
-    const emailName = formData.email.split("@")[0];
+    // Find user by email
+    const user = users.find(u => u.email === formData.email);
+    
+    if (!user) {
+      setError("Invalid email or password");
+      return;
+    }
+
+    // Check password
+    if (user.password !== formData.password) {
+      setError("Invalid email or password");
+      return;
+    }
+
+    // Set current user data (without password)
     const userData = {
-      email: formData.email,
-      fullName: emailName.charAt(0).toUpperCase() + emailName.slice(1),
+      id: user.id,
+      fullName: user.fullName,
+      email: user.email,
+      role: user.role,
     };
     localStorage.setItem("userData", JSON.stringify(userData));
+    localStorage.setItem("isAuthenticated", "true");
     
-    // Redirect to featured projects page
-    navigate("/featured-projects");
+    // Dispatch custom event to notify Header of login
+    window.dispatchEvent(new Event("userDataChanged"));
+
+    // Redirect based on role
+    if (user.role === "Teacher") {
+      navigate("/teacher");
+    } else {
+      navigate("/featured-projects");
+    }
   };
 
   return (
@@ -57,6 +84,10 @@ const LoginPage = () => {
         <h2 className="text-2xl font-bold text-center mb-6 text-[#a49bd5]">
           Welcome Back
         </h2>
+
+        {error && (
+          <p className="text-red-500 text-sm text-center mb-4 w-full">{error}</p>
+        )}
 
         <form className="space-y-4 w-full" onSubmit={handleSubmit}>
           {/* Email */}

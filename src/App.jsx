@@ -25,6 +25,10 @@ import AllProjects from './component/AllProjects';
 import AllDepartments from './component/AllDepartments';
 import FeaturedProjects from './component/FeaturedProjects';
 import ContactUs from './component/ContactUs';
+import UserLayout from './component/UserLayout';
+import UserDashboard from './component/user/UserDashboard';
+import CreateTeam from './component/user/CreateTeam';
+import MyTeam from './component/user/MyTeam';
 import { SearchProvider } from './context/SearchContext';
 
 function App() {
@@ -47,6 +51,11 @@ function App() {
 
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpForm />} />
+      <Route path="/user-dashboard" element={<UserLayout />}>
+        <Route index element={<UserDashboard />} />
+        <Route path="create-team" element={<CreateTeam />} />
+        <Route path="my-team" element={<MyTeam />} />
+      </Route>
       <Route path="/featured-projects" element={<FeaturedProjects />} />
       <Route path="/home" element={<Display />} />
 
